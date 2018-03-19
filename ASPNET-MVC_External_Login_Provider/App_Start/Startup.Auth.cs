@@ -4,8 +4,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.Twitter;
 using Owin;
 using ASPNET_MVC_External_Login_Provider.Models;
+using Microsoft.Owin.Security;
 
 namespace ASPNET_MVC_External_Login_Provider
 {
@@ -46,23 +48,33 @@ namespace ASPNET_MVC_External_Login_Provider
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            app.UseMicrosoftAccountAuthentication(
+                clientId: "63fbd2b8-7b18-4548-8e0a-ee7e5a61e17d",
+                clientSecret: "dfgBR9)!)tcxoXDDQR1415[");            
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(new TwitterAuthenticationOptions
+            {
+                ConsumerKey = "eLLmNMyPjN2HRN8ijNgHXK98R",
+                ConsumerSecret = "lwTeVBwrPI7M4rLVIlfCZO78Ch77wCTyTYd9bLNmr9dexWtq9H",
+                BackchannelCertificateValidator = new CertificateSubjectKeyIdentifierValidator(new[] {
+                    "A5EF0B11CEC04103A34A659048B21CE0572D7D47", // VeriSign Class 3 Secure Server CA – G2
+                    "0D445C165344C1827E1D20AB25F40163D8BE79A5", // VeriSign Class 3 Secure Server CA – G3
+                    "7FD365A7C2DDECBBF03009F34339FA02AF333133", // VeriSign Class 3 Public Primary Certification Authority – G5
+                    "39A55D933676616E73A761DFA16A7E59CDE66FAD", // Symantec Class 3 Secure Server CA – G4
+                    "5168FF90AF0207753CCCD9656462A212B859723B", //DigiCert SHA2 High Assurance Server C‎A
+                    "B13EC36903F8BF4701D498261A0802EF63642BC3" //DigiCert High Assurance EV Root CA
+                })
+            });
 
             //app.UseFacebookAuthentication(
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "249179365418-995l6ji1etvvoag2bbdnvqmtrhmtgs1b.apps.googleusercontent.com",
+                ClientSecret = "ILTgW5KX0v0Zw1vzq1Mgp-za"
+            });
         }
     }
 }

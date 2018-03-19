@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace ASPNET_MVC_External_Login_Provider.Controllers
-{
+{    
     public class HomeController : Controller
     {
         public ActionResult Index()

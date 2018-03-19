@@ -73,6 +73,20 @@ namespace ASPNET_MVC_External_Login_Provider.Controllers
                 return View(model);
             }
 
+            //To Validate Google recaptcha
+            var response = Request["g-recaptcha-response"];
+            string secretKey = "6LcwnU0UAAAAAJFCv2qw9256HQyia0aLt1TjHr31";
+            var client = new System.Net.WebClient();
+            var resultCaptcha = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
+            var obj = Newtonsoft.Json.Linq.JObject.Parse(resultCaptcha);
+            var status = (bool)obj.SelectToken("success");
+
+            if (!status)
+            {
+                ModelState.AddModelError("", "Error de captcha");
+                return View(model);
+            }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
